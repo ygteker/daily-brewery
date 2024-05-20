@@ -9,7 +9,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import MUILink from '@mui/material/Link';
+import { signOut } from '@/lib/auth';
 
 export default async function Home() {
   const todaysBrewery: Brewery = await getTodaysBrewery();
@@ -133,6 +133,14 @@ export default async function Home() {
           </CardActions>
         </Card>
       </div>
+      <form
+        action={async () => {
+          'use server';
+          await signOut();
+        }}
+      >
+        <button>SignOut</button>
+      </form>
     </main>
   );
 }

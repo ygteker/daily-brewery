@@ -29,3 +29,13 @@ export default function LoginForm() {
     </div>
   );
 }
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button className='mt-4 w-full' aria-disabled={pending}>
+      Logout
+    </Button>
+  );
+}
