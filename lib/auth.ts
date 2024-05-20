@@ -3,6 +3,7 @@ import { authConfig } from './auth.config';
 import Credentails from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
+import { prisma } from '@/lib/prisma';
 
 async function getUser(email: string) {
   try {
