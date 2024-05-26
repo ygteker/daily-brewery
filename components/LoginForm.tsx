@@ -1,30 +1,47 @@
 'use client';
 
-import { Input, Stack, Button } from '@mui/material';
+import { Input, Stack, Button, TextField } from '@mui/material';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '@/lib/actions';
+import { useState } from 'react';
+import { HtmlContext } from 'next/dist/server/future/route-modules/app-page/vendored/contexts/entrypoints';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [formValues, setFormValues] = useState({
+    email: '',
+    password: '',
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('email', formValues.email);
+    formData.append('password', formValues.password);
+    dispatch(formData);
+  };
   return (
     <div className='flex flex-col p-96'>
-      <form action={dispatch}>
+      <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
-          <Input placeholder='Email' type='email' />
-          <Input placeholder='Password' type='password' />
-          <Button type='submit'>Login</Button>
+          <TextField
+            name='email'
+            label='Email'
+            onChange={handleChange}
+            type='email'
+          />
+          <TextField
+            name='password'
+            label='Passwprd'
+            onChange={handleChange}
+            type='password'
+          />
+          <Button type='submit'>Sign Up</Button>
         </Stack>
-        <div
-          className='flex h-8 items-end space-x-1'
-          aria-live='polite'
-          aria-atomic='true'
-        >
-          {errorMessage && (
-            <>
-              <h3>{errorMessage}</h3>
-            </>
-          )}
-        </div>
       </form>
     </div>
   );

@@ -26,7 +26,7 @@ export const { auth, signIn, signOut } = NextAuth({
           .safeParse(credentials);
 
         if (parsedCredentials.success) {
-          const bcrypt = require('bcrypt');
+          const bcrypt = require('bcryptjs');
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
           if (!user) return null;
