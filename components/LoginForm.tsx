@@ -1,13 +1,14 @@
 'use client';
 
-import { Input, Stack, Button, TextField } from '@mui/material';
-import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate } from '@/lib/actions';
+import { Button, Stack, TextField } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { HtmlContext } from 'next/dist/server/future/route-modules/app-page/vendored/contexts/entrypoints';
+import { useFormStatus } from 'react-dom';
 
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const router = useRouter();
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
@@ -17,12 +18,26 @@ export default function LoginForm() {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('email', formValues.email);
-    formData.append('password', formValues.password);
-    dispatch(formData);
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formValues),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      setError(data.message);
+      return;
+    }
+
+    setSuccess('Login successful');
+    setFormValues({ email: '', password: '' });
+    setError('');
+    router.push('/');
   };
   return (
     <div className='flex flex-col p-96'>
