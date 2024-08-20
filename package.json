@@ -16,23 +16,25 @@
     "@prisma/client": "^5.14.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "i": "^0.3.7",
     "next": "^14.2.3",
     "next-auth": "^5.0.0-beta.18",
-    "react": "^18",
-    "react-dom": "^18",
+    "npm": "^10.8.2",
     "sqlite3": "^5.1.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "postcss": "^8.4.38",
     "prisma": "^5.14.0",
+    "react": "^19.0.0-rc-a960b92c-20240819",
+    "react-dom": "^19.0.0-rc-a960b92c-20240819",
     "tailwindcss": "^3.4.3",
     "typescript": "^5"
   }
