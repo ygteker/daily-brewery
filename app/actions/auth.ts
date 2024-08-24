@@ -1,5 +1,7 @@
 import { SignupFormSchema, FormState } from '@/lib/definitions';
 import { prisma } from '@/lib/prisma';
+import { createSession, deleteSession } from '@/lib/session';
+import { redirect } from 'next/navigation';
 
 export async function signup(state: FormState, formData: FormData) {
   // 1. Validate form fields
@@ -20,7 +22,7 @@ export async function signup(state: FormState, formData: FormData) {
   const { name, email, password } = valdiateFields.data;
   const hashedPassword = password;
   // 3. Insert the user into database
-  const data = await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       email: email,
       name: name,
@@ -28,9 +30,18 @@ export async function signup(state: FormState, formData: FormData) {
     },
   });
 
-  if (!data) {
+  if (!user) {
     return {
       message: 'An error occurred while creating your account.',
     };
   }
+
+  // 4. Create user session
+  await createSession(user.email); //TODO change to id
+  redirect('/profile');
+}
+
+export async function logout() {
+  deleteSession();
+  redirect('/login');
 }

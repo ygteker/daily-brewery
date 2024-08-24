@@ -27,3 +27,16 @@ export type FormState =
       message?: string;
     }
   | undefined;
+
+export type SessionPayload = {
+  userId: string;
+  expiresAt: Date;
+};
+
+export type User = {
+  email: string;
+  password: string;
+  name: string;
+  isAdmin: boolean;
+  team: string;
+};
